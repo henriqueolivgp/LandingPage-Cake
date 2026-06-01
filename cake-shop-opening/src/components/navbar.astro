@@ -1,0 +1,76 @@
+---
+// 1. Descobrir qual é a página atual
+const currentPath = Astro.url.pathname;
+
+// 2. Criar a lista de links para não repetir código
+const navLinks = [
+  { nome: "Início", path: "/" },
+  { nome: "Menu", path: "/menu" },
+  { nome: "Sobre Nós", path: "/sobre" },
+  { nome: "Contactos", path: "/contactos" },
+  { nome: "Inauguracao", path: "/inauguracao" }
+];
+---
+
+<nav class="bg-[#FFF0E4] relative flex flex-col w-full z-50 border-b border-orange-200 shadow-sm">
+  
+  <div class="max-w-7xl w-full flex flex-wrap items-center justify-between mx-auto p-4">
+    
+    <a href="/" class="flex flex-col items-center space-x-3">
+        <img class="w-14" src="/logo.png" alt="Logo Cookie Store">
+        <span class="self-center hidden md:flex text-2xl text-red-400 font-bold whitespace-nowrap">Cake Store</span>
+    </a>
+
+    <div class="flex md:order-2 space-x-3 md:space-x-0">
+        <button type="button" class="text-white bg-red-500/50 hover:bg-red-700 focus:ring-4 focus:ring-orange-300 font-semibold rounded-lg text-sm px-5 py-2.5 transition-colors shadow-md uppercase">Saber mais</button>
+        
+        <button id="menu-button" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-orange-800 rounded-lg md:hidden hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300">
+            <span class="sr-only">Abrir menu</span>
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+        </button>
+    </div>
+
+    <!-- <div id="navbar-sticky" class="hidden w-full md:flex md:w-auto md:order-1">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-orange-200 rounded-lg md:space-x-8 md:flex-row md:mt-0 md:border-0">
+        
+        {navLinks.map((link) => {
+          const isActive = currentPath === link.path || currentPath === link.path + '/';
+          
+          return (
+            <li>
+              <a 
+                href={link.path} 
+                class={`block py-2 px-3 md:p-0 rounded transition-colors uppercase font-bold ${
+                  isActive 
+                    ? 'text-white bg-orange-600 md:bg-transparent md:text-orange-600 font-bold' 
+                    : 'text-pink-700/40 hover:bg-pink-700 md:hover:bg-transparent md:hover:text-orange-600'
+                }`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {link.nome}
+              </a>
+            </li>
+          );
+        })}
+
+      </ul>
+    </div> -->
+  </div>
+<div 
+    class="absolute left-0 right-0 -bottom-2.5 h-2.5 w-full bg-repeat-x z-40"
+    style={`
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="10"><path d="M0,0 Q12,12 24,0" fill="%23FDF8F5" stroke="%234A3B32" stroke-width="1.5"/></svg>');
+      background-size: 24px 10px;
+      color: #A07855;
+    `}
+  ></div>
+</nav>
+
+<script>
+  const btn = document.getElementById('menu-button');
+  const menu = document.getElementById('navbar-sticky');
+
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

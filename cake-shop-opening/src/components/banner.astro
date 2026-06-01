@@ -1,0 +1,30 @@
+---
+// Podes substituir este link pela imagem real que vais usar no teu projeto
+const bgImagem = "/banner/banner.png";
+---
+
+<section 
+  class="relative w-full h-125 md:h-162.5 flex items-center justify-center text-center px-6"
+  style={`background-image: url('${bgImagem}'); background-size: cover; background-position: center;`}
+>
+  <div class="absolute inset-0 bg-black/40"></div>
+
+  <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center gap-6 mt-10">
+    
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-doce-cream tracking-wide drop-shadow-lg" style="font-family: 'Georgia', serif;">
+      O DOCE ESTÁ A CHEGAR!
+    </h1>
+    
+    <p class="text-base md:text-xl text-doce-bg font-medium tracking-wider drop-shadow-md uppercase max-w-2xl">
+      Em breve, o seu novo ponto de doçura no coração da cidade.
+    </p>
+
+    <a 
+      href="#inauguracao" 
+      class="mt-6 bg-doce-pink text-white px-8 py-3 rounded-full font-bold text-lg hover:opacity-90 transition-all shadow-lg hover:-translate-y-1"
+    >
+      Fique por Dentro da Inauguração
+    </a>
+    
+  </div>
+</section>

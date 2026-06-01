@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+
+
+@theme {
+  /* Palete da Pastelaria Doce Aura */
+  --color-doce-cream: #F8F1E5;
+  --color-doce-bg: #FCF9F5;
+  --color-doce-chocolate: #3A2312;
+  --color-doce-pink: #D24375;
+  --color-doce-caramel: #A07855;
+}

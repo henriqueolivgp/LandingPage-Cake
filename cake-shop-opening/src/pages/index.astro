@@ -1,17 +1,65 @@
 ---
-import Welcome from "../components/Welcome.astro";
+import Navbar from "@/components/navbar.astro";
+import Banner from "@/components/banner.astro";
+import ProductCard from "@/components/productcard.astro";
+import CountdownTimer from "@/components/countdowntimer.astro";
+import NewsletterForm from "@/components/newsletterform.astro";
+import Footer from "@/components/footer.astro";
+import { produtos } from "@/models/produtos";
 import Layout from "../layouts/Layout.astro";
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-  <main class="w-full overflow-hidden">
+  <Navbar />
+  
+  <main class="w-full overflow-hidden bg-[#FDF8F5]">
     {/* Banner */}
-    {/* something else */}
-    <section class="py-16 bg-orange-50/50 border-t border-orange-100">
-      <Welcome />
+    <Banner />
+    
+    {/* Secção Principal: O Que Te Espera & Inauguração */}
+    <section class="bg-[#FDF8F5] py-16 px-6">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+        
+        <!-- ── Lado Esquerdo: Produtos (Ocupa 7 das 12 colunas em Desktop) ── -->
+        <div class="lg:col-span-7 flex flex-col">
+          <h2 class="font-['Playfair_Display',Georgia,serif] text-2xl md:text-[1.65rem] font-bold text-doce-chocolate uppercase tracking-wide mb-6">
+            O Que Te Espera
+          </h2>
+          
+          <!-- Grid de Produtos (3 colunas) -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {
+              produtos.map((produto) => (
+                <ProductCard
+                  titulo={produto.titulo}
+                  descricao={produto.descricao}
+                  imagem={produto.imagem}
+                />
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- ── Lado Direito: Contador + Newsletter (Ocupa 5 das 12 colunas em Desktop) ── -->
+        <div class="lg:col-span-5 flex flex-col lg:pl-4">
+          
+          <!-- Contador -->
+          <div class="mb-10">
+            <h2 class="font-['Playfair_Display',Georgia,serif] text-2xl md:text-[1.65rem] font-bold text-doce-chocolate uppercase tracking-wide mb-6">
+              A Inauguração Está Quase Aí!
+            </h2>
+            <CountdownTimer />
+          </div>
+
+          <!-- Newsletter -->
+          <div>
+            <NewsletterForm />
+          </div>
+          
+        </div>
+        
+      </div>
     </section>
+    <Footer />
   </main>
 </Layout>

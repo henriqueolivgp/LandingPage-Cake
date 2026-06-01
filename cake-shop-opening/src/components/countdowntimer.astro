@@ -1,0 +1,69 @@
+---
+// Ajusta esta data para a inauguração real
+// Formato: new Date('YYYY-MM-DDTHH:MM:SS')
+const dataInauguracao = '2026-07-12T00:00:00';
+---
+
+<div class="flex justify-center lg:justify-start items-start gap-2 text-doce-chocolate mt-2">
+  
+  <div class="flex flex-col items-center w-16 md:w-20">
+    <span class="font-['Playfair_Display',Georgia,serif] text-5xl md:text-[3.5rem] font-bold leading-none tracking-[-0.02em]" id="cd-dias">00</span>
+    <span class="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] mt-2 text-doce-chocolate/65">Dias</span>
+  </div>
+  
+  <span class="text-4xl md:text-[2.75rem] font-bold opacity-50 self-start mt-1 leading-none">:</span>
+
+  <div class="flex flex-col items-center w-16 md:w-20">
+    <span class="font-['Playfair_Display',Georgia,serif] text-5xl md:text-[3.5rem] font-bold leading-none tracking-[-0.02em]" id="cd-horas">00</span>
+    <span class="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] mt-2 text-doce-chocolate/65">Horas</span>
+  </div>
+  
+  <span class="text-4xl md:text-[2.75rem] font-bold opacity-50 self-start mt-1 leading-none">:</span>
+
+  <div class="flex flex-col items-center w-16 md:w-20">
+    <span class="font-['Playfair_Display',Georgia,serif] text-5xl md:text-[3.5rem] font-bold leading-none tracking-[-0.02em]" id="cd-minutos">00</span>
+    <span class="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] mt-2 text-doce-chocolate/65">Minutos</span>
+  </div>
+  
+  <!-- Esconde segundos e o seu separador em ecrãs menores que 480px -->
+  <span class="hidden min-[480px]:block text-4xl md:text-[2.75rem] font-bold opacity-50 self-start mt-1 leading-none">:</span>
+
+  <div class="hidden min-[480px]:flex flex-col items-center w-16 md:w-20">
+    <span class="font-['Playfair_Display',Georgia,serif] text-5xl md:text-[3.5rem] font-bold leading-none tracking-[-0.02em]" id="cd-segundos">00</span>
+    <span class="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.15em] mt-2 text-doce-chocolate/65">Segundos</span>
+  </div>
+  
+</div>
+
+<script define:vars={{ dataInauguracao }}>
+  const alvo = new Date(dataInauguracao).getTime();
+
+  const el = {
+    dias:     document.getElementById('cd-dias'),
+    horas:    document.getElementById('cd-horas'),
+    minutos:  document.getElementById('cd-minutos'),
+    segundos: document.getElementById('cd-segundos'),
+  };
+
+  function pad(n) {
+    return String(Math.floor(n)).padStart(2, '0');
+  }
+
+  function tick() {
+    const distancia = alvo - Date.now();
+
+    if (distancia <= 0) {
+      clearInterval(timer);
+      Object.values(el).forEach(e => { if (e) e.textContent = '00'; });
+      return;
+    }
+
+    el.dias.textContent     = pad(distancia / (1000 * 60 * 60 * 24));
+    el.horas.textContent    = pad((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    el.minutos.textContent  = pad((distancia % (1000 * 60 * 60)) / (1000 * 60));
+    el.segundos.textContent = pad((distancia % (1000 * 60)) / 1000);
+  }
+
+  tick();
+  const timer = setInterval(tick, 1000);
+</script>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  titulo: string;
+  descricao: string;
+  imagem: string;
+}
+
+const { titulo, descricao, imagem } = Astro.props;
+---
+
+<article class="flex flex-col gap-3 cursor-pointer group">
+  <!-- Image Wrapper -->
+  <div class="overflow-hidden rounded-xl border border-doce-chocolate/10 shadow-sm aspect-4/3 bg-white">
+    <img
+      src={imagem}
+      alt={titulo}
+      loading="lazy"
+      decoding="async"
+      class="w-full h-full object-cover block transition-transform duration-700 ease-in-out group-hover:scale-105"
+    />
+  </div>
+
+  <!-- Card Body -->
+  <div class="flex flex-col mt-1">
+    <h3 class="font-['Playfair_Display',Georgia,serif] font-bold text-doce-chocolate text-[15px] sm:text-base uppercase tracking-wider leading-[1.3]">
+      {titulo}
+    </h3>
+    <p class="text-doce-chocolate/80 text-sm leading-relaxed mt-1 pr-2">
+      {descricao}
+    </p>
+  </div>
+</article>

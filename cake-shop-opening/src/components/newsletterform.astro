@@ -1,0 +1,83 @@
+---
+// Podes passar um endpoint de API como prop, ex: endpoint="/api/newsletter"
+interface Props {
+  endpoint?: string;
+}
+const { endpoint = '/api/newsletter' } = Astro.props;
+---
+
+<div class="flex flex-col gap-3 w-full max-w-104 mt-2">
+  <p class="font-bold text-[13px] uppercase tracking-[0.08em] text-doce-chocolate text-center lg:text-left">
+    Recebe um cupão exclusivo para abertura
+  </p>
+
+  <div class="flex w-full gap-2">
+    <input
+      id="newsletter-email"
+      type="email"
+      placeholder="Insira um email"
+      class="flex-1 min-w-0 px-4 py-2.5 border border-doce-caramel/40 rounded text-sm bg-white text-doce-chocolate shadow-sm outline-none transition-all duration-200 placeholder-gray-400 focus:border-doce-pink focus:ring-2 focus:ring-doce-pink/15"
+      autocomplete="email"
+      required
+    />
+    <button 
+      id="newsletter-btn" 
+      type="button" 
+      class="bg-doce-pink text-white px-5 py-2.5 rounded font-semibold text-[13px] uppercase tracking-[0.06em] whitespace-nowrap border-none cursor-pointer shadow-md transition-all duration-200 hover:bg-doce-pink/90 active:scale-[0.97] disabled:opacity-65 disabled:cursor-not-allowed disabled:hover:bg-doce-pink disabled:active:scale-100"
+    >
+      Inscrever-se
+    </button>
+  </div>
+
+  <p id="newsletter-feedback" class="text-[13px] min-h-[1.2em]" aria-live="polite"></p>
+</div>
+
+<script define:vars={{ endpoint }}>
+  const emailInput = document.getElementById('newsletter-email');
+  const btn        = document.getElementById('newsletter-btn');
+  const feedback   = document.getElementById('newsletter-feedback');
+
+  btn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+
+    // Validação básica
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      feedback.textContent = 'Por favor insere um email válido.';
+      feedback.className = 'text-[13px] min-h-[1.2em] font-semibold text-[#c0392b]';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'A enviar…';
+
+    try {
+      // Se não tiveres API ainda, comenta o fetch e usa só o bloco do catch
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        emailInput.value = '';
+        feedback.textContent = '✓ Inscrição confirmada! Fica atento ao teu email.';
+        feedback.className = 'text-[13px] min-h-[1.2em] font-semibold text-[#2d6a4f]';
+        btn.textContent = 'Inscrito ✓';
+      } else {
+        throw new Error('Erro no servidor');
+      }
+    } catch {
+      // Remove este bloco quando tiveres a API real
+      // Por agora simula sucesso localmente:
+      emailInput.value = '';
+      feedback.textContent = '✓ Inscrição confirmada! Fica atento ao teu email.';
+      feedback.className = 'text-[13px] min-h-[1.2em] font-semibold text-[#2d6a4f]';
+      btn.textContent = 'Inscrito ✓';
+    }
+  });
+
+  // Também submete ao pressionar Enter no input
+  emailInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') btn.click();
+  });
+</script>
